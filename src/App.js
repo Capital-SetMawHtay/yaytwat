@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
 import {
   Provider
 } from 'react-redux';
@@ -8,7 +7,6 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-
 class App extends Component {
   render() {
     return (

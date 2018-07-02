@@ -2,7 +2,8 @@
 import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
-
+import { connect } from 'react-redux';
+import {} from './index'
 // Configure Firebase.
 const config = {
 	apiKey: 'AIzaSyAeue-AsYu76MMQlTOM-KlbYBlusW9c1FM',
@@ -12,11 +13,6 @@ const config = {
 firebase.initializeApp(config);
 
 class SignInScreen extends React.Component {
-	// The component's Local state.
-	state = {
-		isSignedIn: false // Local signed-in state.
-	};
-
 	// Configure FirebaseUI.
 	uiConfig = {
 		// Popup signin flow rather than redirect flow.
@@ -32,9 +28,7 @@ class SignInScreen extends React.Component {
 	// Listen to the Firebase Auth state and set the local state.
 	componentDidMount() {
 		this.unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) =>
-			this.setState({
-				isSignedIn: !!user
-			})
+			this.props.signInSuccess(user);
 		);
 	}
 
@@ -44,17 +38,22 @@ class SignInScreen extends React.Component {
 	}
 
 	render() {
-		if (!this.state.isSignedIn) {
+		const { user } = this.props;
+	
+		if (!user) {
 			return (
 				<div>
-					<h1> My App </h1> <p> Please sign - in: </p>{' '}
+					<h1> My App </h1>
+					<p> Please sign - in: </p>
+					{' '}
 					<StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />{' '}
 				</div>
 			);
 		}
 		return (
 			<div>
-				<h1> My App </h1> <p>
+				<h1> My App </h1>
+				<p>
 					{' '}
 					Welcome {firebase.auth().currentUser.displayName}!You are now signed - in !{' '}
 				</p>{' '}
@@ -63,3 +62,13 @@ class SignInScreen extends React.Component {
 		);
 	}
 }
+
+const mapStateToProps = (state) => ({
+	user: state.user,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+	signInSuccess: (user) => dispatch(authActions.signInSuccess(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps);
