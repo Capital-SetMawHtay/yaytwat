@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import {
-  Provider
-} from 'react-redux';
+
 import {
   BrowserRouter,
   Route,
-  Switch
+  Switch,
 } from 'react-router-dom';
 
 class App extends Component {
