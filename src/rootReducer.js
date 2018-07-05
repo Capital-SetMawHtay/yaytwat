@@ -1,8 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { homeReducer } from './ducks/home';
+import { homeReducer as home } from './ducks/home';
+import { authReducer as user } from './ducks/auth';
 
 const reducer = combineReducers({
-  homeReducer,
+  user,
+  home,
 });
 
 // const store = createStore(reducer, middleware);

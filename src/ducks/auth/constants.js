@@ -1,0 +1,1 @@
+export const SIGN_IN_SUCCESS = '@AUTH/SIGN_IN_SUCCESS';
