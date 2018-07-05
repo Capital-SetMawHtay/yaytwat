@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { homeActions } from "../ducks/home";
+import { homeActions, homeSelectors } from "../ducks/home";
 import injectSheet from 'react-jss';
-import Navbar from './Navbar'
+import Color from "color";
+import Navbar from './Navbar';
+import KyatButton from './KyatButton';
+import { saveUserData } from '../ducks/home/sagas';
 
 const styles = theme => ({
   container: {
@@ -23,8 +26,22 @@ const styles = theme => ({
       },
     },
   },
-  button: {
-    background: 'white',
+  summaryPanel: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100vw',
+    boxSizing: 'border-box',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  saveButton: {
+    backgroundColor: Color(theme.colorPrimary).darken(0.3).string(),
+    color: 'white',
+    width: '100vw',
+    height: 70,
+    textAlign: 'center',
+    fontSize: 16,
+    boxShadow: 'none',
   },
   label: {
     fontWeight: 'bold',
@@ -39,8 +56,32 @@ class Home extends React.Component {
     this.props.requestData(this.props.user);
   }
 
+  increaseCount = (categoryName) => {
+    this.props.increaseCount(categoryName);
+  }
+
+  save = () => {
+    this.props.save(this.props.user, { ...this.props.data });
+  }
+
   render() {
-    const { user, data, classes } = this.props;
+    const {
+      user,
+      home,
+      counts,
+      classes,
+      currentTotal,
+      previousTotal,
+      saving,
+      loading,
+      error,
+    } = this.props;
+
+    if(loading) {
+      return <div>
+        Loading....
+      </div>
+    }
 
     return (
       <div className={classes.container}>
@@ -50,8 +91,26 @@ class Home extends React.Component {
           <p>
             Welcome {user.displayName}!You are now signed - in !{' '}
           </p>
+          <div className={classes.summaryPanel}>
+            <p>Previous total: { previousTotal }</p>
+            <p>Current total: { currentTotal }</p>
+          </div>
+          { saving ? 'Saving...' : null }
+          { error ?  'Save failed.' : null }
           {
-            JSON.stringify(data)
+            counts.map(countRecord => {
+              return (
+                <KyatButton key={countRecord.name} clickHandler={this.increaseCount.bind(this, countRecord.name)}>
+                  Add {countRecord.name}
+                </KyatButton>
+              )
+            })
+          }
+          <div>
+            <button type="submit" className={classes.saveButton} onClick={this.save}>Save</button>
+          </div>
+          {
+            JSON.stringify(home)
           }
         </div>
       </div>
@@ -60,14 +119,23 @@ class Home extends React.Component {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    requestData: (user) => dispatch(homeActions.userDataRequested(user)), 
+    requestData: (user) => dispatch(homeActions.userDataRequested(user)),
+    increaseCount: (categoryName) => dispatch(homeActions.increaseCount(categoryName)),
+    save: (user, data) => dispatch(homeActions.save(user, data))
   };
 }
 
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    data: state.home,
+    home: state.home,
+    data: state.home.data,
+    currentTotal: homeSelectors.getCurrentTotal(state),
+    previousTotal: homeSelectors.getPreviousTotal(state),
+    counts: state.home.data.counts,
+    saving: state.home.data.saving,
+    error: state.home.data.error,
+    loading: state.home.loading,
   };
 }
 

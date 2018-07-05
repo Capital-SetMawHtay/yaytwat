@@ -28,7 +28,8 @@ import {
   and only the latest one will be run.
 */
 function* rootSaga() {
-  yield takeLatest(homeConstants.USER_DATA_REQUESTED, homeSagas);
+  yield takeLatest(homeConstants.USER_DATA_REQUESTED, homeSagas.fetchUserData);
+  yield takeLatest(homeConstants.SAVE_REQUESTED, homeSagas.saveUserData);
 }
 
 export default rootSaga;

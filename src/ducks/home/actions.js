@@ -13,3 +13,18 @@ export const userDataFetchSucceeded = (data) => {
     data,
   };
 };
+
+export const increaseCount = (categoryName) => {
+  return {
+    type: constants.INCREASE_COUNT,
+    categoryName,
+  };
+};
+
+export const save = (user, data) => {
+  return {
+    type: constants.SAVE_REQUESTED,
+    data,
+    user,
+  }
+}
