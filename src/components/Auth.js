@@ -1,17 +1,9 @@
 // Import FirebaseAuth and firebase.
 import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebase from 'firebase';
+import firebase from '../firebase';
 
-// Configure Firebase.
-const config = {
-	apiKey: 'AIzaSyAeue-AsYu76MMQlTOM-KlbYBlusW9c1FM',
-	authDomain: 'myproject-1234.firebaseapp.com'
-	// ...
-};
-firebase.initializeApp(config);
-
-class SignInScreen extends React.Component {
+class Auth extends React.Component {
 	// The component's Local state.
 	state = {
 		isSignedIn: false // Local signed-in state.
@@ -63,3 +55,5 @@ class SignInScreen extends React.Component {
 		);
 	}
 }
+
+export default Auth;
