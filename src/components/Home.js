@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import firebase from '../firebase';
 import { homeActions } from "../ducks/home";
+import { authActions } from "../ducks/auth";
 
 class Home extends React.Component {
   constructor(props) {
@@ -11,7 +12,12 @@ class Home extends React.Component {
   componentDidMount = () => {
     this.props.requestData(this.props.user);
   }
-  
+
+  signOut = () => {
+    firebase.auth().signOut().then(() => {
+      this.props.signOut();
+    })
+  }
 
   render() {
     const { user, data } = this.props;
@@ -26,7 +32,7 @@ class Home extends React.Component {
           <p>
             Welcome {user.displayName}!You are now signed - in !{' '}
           </p>
-          <button type="submit" onClick={() => firebase.auth().signOut()}>
+          <button type="submit" onClick={this.signOut}>
             Sign - out
           </button>
           {
@@ -40,6 +46,7 @@ class Home extends React.Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     requestData: (user) => dispatch(homeActions.userDataRequested(user)), 
+    signOut: () => dispatch(authActions.signOut()),
   };
 }
 

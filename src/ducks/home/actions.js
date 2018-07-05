@@ -1,8 +1,9 @@
 import * as constants from './constants';
 
-export const userDataRequested = () => {
+export const userDataRequested = (user) => {
   return {
     type: constants.USER_DATA_REQUESTED,
+    user,
   }
 };
 

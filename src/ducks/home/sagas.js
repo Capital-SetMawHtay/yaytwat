@@ -4,8 +4,9 @@ import firebase from '../../firebase';
 
 function* fetchUserData(action) {
   try {
-    const ref = call(firebase.database().ref, `users/${action.user.uid}`);
-    const snapshot = yield ref.once('value');
+    const ref = firebase.database().ref(`users/${action.user.uid}`);
+    const snapshot = yield call([ref, ref.once], 'value');
+    console.log('Snapshot', snapshot);
     const data = snapshot.val();
     yield put({
       type: constants.USER_DATA_FETCH_SUCCEEDED,

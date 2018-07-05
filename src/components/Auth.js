@@ -38,21 +38,11 @@ class Auth extends React.Component {
 		if (!this.props.isSignedIn) {
 			return (
 				<div>
-					<h1> My App </h1> <p> Please sign - in: </p>{' '}
 					<StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />{' '}
 				</div>
 			);
     }
     return <Redirect to="/home" />;
-		// return (
-		// 	<div>
-		// 		<h1> My App </h1> <p>
-		// 			{' '}
-		// 			Welcome {firebase.auth().currentUser.displayName}!You are now signed - in !{' '}
-		// 		</p>{' '}
-		// 		<a onClick={() => firebase.auth().signOut()}> Sign - out </a>{' '}
-		// 	</div>
-		// );
 	}
 }
 
