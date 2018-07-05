@@ -4,6 +4,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { connect } from "react-redux";
 import firebase from '../firebase';
 import { authActions } from "../ducks/auth";
+import { Redirect } from "react-router-dom";
 class Auth extends React.Component {
 	// Configure FirebaseUI.
 	uiConfig = {
@@ -20,7 +21,10 @@ class Auth extends React.Component {
 	// Listen to the Firebase Auth state and set the local state.
 	componentDidMount() {
 		this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(user =>{
-			this.props.signInSuccess(user);
+      console.log("Auth state changed!");
+      if(user) {
+        this.props.signInSuccess(user);
+      }
 		});
 	}
 
@@ -30,6 +34,7 @@ class Auth extends React.Component {
 	}
 
 	render() {
+    console.log("Rendering Auth", this.props.isSignedIn);
 		if (!this.props.isSignedIn) {
 			return (
 				<div>
@@ -37,21 +42,22 @@ class Auth extends React.Component {
 					<StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />{' '}
 				</div>
 			);
-		}
-		return (
-			<div>
-				<h1> My App </h1> <p>
-					{' '}
-					Welcome {firebase.auth().currentUser.displayName}!You are now signed - in !{' '}
-				</p>{' '}
-				<a onClick={() => firebase.auth().signOut()}> Sign - out </a>{' '}
-			</div>
-		);
+    }
+    return <Redirect to="/home" />;
+		// return (
+		// 	<div>
+		// 		<h1> My App </h1> <p>
+		// 			{' '}
+		// 			Welcome {firebase.auth().currentUser.displayName}!You are now signed - in !{' '}
+		// 		</p>{' '}
+		// 		<a onClick={() => firebase.auth().signOut()}> Sign - out </a>{' '}
+		// 	</div>
+		// );
 	}
 }
 
-const mapDispatchToProps = (disptach) => ({
-  signInSuccess: (user) => disptach(authActions.signInSuccess(user)),
+const mapDispatchToProps = (dispatch) => ({
+  signInSuccess: (user) => dispatch(authActions.signInSuccess(user)),
 });
 
 const mapStateToProps = (store) => ({

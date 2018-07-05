@@ -1,19 +1,14 @@
 import * as constants from './constants';
 
-const userDataRequested = () => {
+export const userDataRequested = () => {
   return {
     type: constants.USER_DATA_REQUESTED,
   }
 };
 
-const userDataFetchSucceeded = (data) => {
+export const userDataFetchSucceeded = (data) => {
   return {
     type: constants.USER_DATA_FETCH_SUCCEEDED,
     data,
   };
-};
-
-export default {
-  userDataRequested,
-  userDataFetchSucceeded,
 };

@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import store from './store';
-
+import {
+  Provider,
+  connect,
+} from 'react-redux';
 import {
   BrowserRouter,
   Route,
   Switch,
   Redirect,
 } from 'react-router-dom';
+import store from './store';
 import Auth from './components/Auth';
 import Home from './components/Home';
 
@@ -23,7 +25,7 @@ function PrivateRoute({ component: Component, user, ...rest }) {
       }
       }
     />
-  )
+  );
 }
 
 function PublicRoute({ component: Component, user, ...rest }) {
@@ -34,21 +36,35 @@ function PublicRoute({ component: Component, user, ...rest }) {
         ? <Component {...props} />
         : <Redirect to="/home" />)}
     />
-  )
+  );
 }
 
 
-const App = (props) => {
-  return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Switch>
-          <PublicRoute path="/" exact component={Auth} />
-          <PrivateRoute path="/login" exact component={Home} />
-        </Switch>
-      </BrowserRouter>
-    </Provider>
-  );
+const App = props => (
+  <BrowserRouter>
+    <Switch>
+      <PublicRoute path="/" exact component={Auth} user={props.user} />
+      <PrivateRoute path="/home" exact component={Home} user={props.user} />
+      <Redirect to="/" />
+    </Switch>
+  </BrowserRouter>
+);
+const mapDispatchToProps = (dispatch) => {
+  return {};
 };
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  };
+};
+
+const WrappedApp = connect(mapStateToProps, mapDispatchToProps)(App);
+
+const Container = props => (
+  <Provider store={store}>
+    <WrappedApp />
+  </Provider>
+);
+
+export default Container;
