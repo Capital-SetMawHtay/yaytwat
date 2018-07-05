@@ -5,6 +5,34 @@ import { connect } from "react-redux";
 import firebase from '../firebase';
 import { authActions } from "../ducks/auth";
 import { Redirect } from "react-router-dom";
+import injectSheet, { ThemeProvider } from 'react-jss';
+
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    margin: '0px auto',
+    boxSizing: 'border-box',
+    width: 375,
+    height: '100vh',
+    "& .row": {
+      width: 375,
+      display: 'flex',
+      justifyContent: 'center',
+      "& .logo": {
+        margin: '0px auto',
+        width: 220,
+      },
+    },
+  },
+  button: {
+    background: 'white',
+  },
+  label: {
+    fontWeight: 'bold',
+  }
+})
 class Auth extends React.Component {
 	// Configure FirebaseUI.
 	uiConfig = {
@@ -34,11 +62,17 @@ class Auth extends React.Component {
 	}
 
 	render() {
+    const { classes } = this.props;
     console.log("Rendering Auth", this.props.isSignedIn);
 		if (!this.props.isSignedIn) {
 			return (
-				<div>
-					<StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />{' '}
+				<div className={classes.container}>
+          <div className="row">
+            <img src="yaytwat-logo.png" className="logo" title="yaytwat logo" />
+          </div>
+          <div className="row">
+					  <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />
+          </div>
 				</div>
 			);
     }
@@ -54,4 +88,4 @@ const mapStateToProps = (store) => ({
   isSignedIn: !!(store.user),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth)
+export default injectSheet(styles)(connect(mapStateToProps, mapDispatchToProps)(Auth));

@@ -9,9 +9,14 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
+import { ThemeProvider } from 'react-jss';
 import store from './store';
 import Auth from './components/Auth';
 import Home from './components/Home';
+
+const theme = {
+  colorPrimary: '#F06292'
+};
 
 function PrivateRoute({ component: Component, user, ...rest }) {
   return (
@@ -62,9 +67,11 @@ const mapStateToProps = (state) => {
 const WrappedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 const Container = props => (
-  <Provider store={store}>
-    <WrappedApp />
-  </Provider>
+  <ThemeProvider theme={theme}>
+    <Provider store={store}>
+      <WrappedApp />
+    </Provider>
+  </ThemeProvider>
 );
 
 export default Container;
