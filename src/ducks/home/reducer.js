@@ -53,12 +53,16 @@ const initialState = {
   loading: true,
 };
 
-const updateCountFor = (counts, name) => {
+const updateCountFor = (counts, name, delta) => {
   return counts.map((countRecord) => {
     if (countRecord.name !== name) {
       return countRecord;
     }
-    const newCountRecord = { ...countRecord, count: countRecord.count + 1 };
+    let sum = countRecord.count + delta;
+    if (sum < 0) {
+      sum = 0;
+    }
+    const newCountRecord = { ...countRecord, count: sum };
     return newCountRecord;
   });
 };
@@ -76,7 +80,9 @@ export default (state = initialState, action) => {
       }
       return { ...state, data: action.data, loading: false };
     case constants.INCREASE_COUNT:
-      return { ...state, data: { ...state.data, counts: updateCountFor(state.data.counts, action.categoryName) } };
+      return { ...state, data: { ...state.data, counts: updateCountFor(state.data.counts, action.categoryName, 1) } };
+    case constants.DECREASE_COUNT:
+      return { ...state, data: { ...state.data, counts: updateCountFor(state.data.counts, action.categoryName, -1) } };
     case constants.SAVING:
       return { ...state, saving: true, error: null };
     case constants.SAVE_SUCCESSFUL:

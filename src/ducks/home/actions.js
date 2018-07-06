@@ -21,6 +21,13 @@ export const increaseCount = (categoryName) => {
   };
 };
 
+export const decreaseCount = (categoryName) => {
+  return {
+    type: constants.DECREASE_COUNT,
+    categoryName,
+  };
+};
+
 export const save = (user, data) => {
   return {
     type: constants.SAVE_REQUESTED,

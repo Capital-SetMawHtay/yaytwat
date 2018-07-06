@@ -5,7 +5,6 @@ import injectSheet from 'react-jss';
 import Color from "color";
 import Navbar from './Navbar';
 import KyatButton from './KyatButton';
-import { saveUserData } from '../ducks/home/sagas';
 
 const styles = theme => ({
   container: {
@@ -34,6 +33,13 @@ const styles = theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  buttonsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100vw',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   saveButton: {
     backgroundColor: Color(theme.colorPrimary).darken(0.3).string(),
     color: 'white',
@@ -54,10 +60,6 @@ class Home extends React.Component {
 
   componentDidMount = () => {
     this.props.requestData(this.props.user);
-  }
-
-  increaseCount = (categoryName) => {
-    this.props.increaseCount(categoryName);
   }
 
   save = () => {
@@ -97,21 +99,23 @@ class Home extends React.Component {
           </div>
           { saving ? 'Saving...' : null }
           { error ?  'Save failed.' : null }
-          {
-            counts.map(countRecord => {
-              return (
-                <KyatButton key={countRecord.name} clickHandler={this.increaseCount.bind(this, countRecord.name)}>
-                  Add {countRecord.name}
-                </KyatButton>
-              )
-            })
-          }
+          <div className={classes.buttonsContainer}>
+            {
+              counts.map(countRecord => {
+                return (
+                  <KyatButton
+                    key={countRecord.name}
+                    increase={this.props.increaseCount.bind(this, countRecord.name)}
+                    decrease={this.props.decreaseCount.bind(this, countRecord.name)}>
+                    Add {countRecord.name} ({countRecord.count})
+                  </KyatButton>
+                )
+              })
+            }
+          </div>
           <div>
             <button type="submit" className={classes.saveButton} onClick={this.save}>Save</button>
           </div>
-          {
-            JSON.stringify(home)
-          }
         </div>
       </div>
     );
@@ -121,6 +125,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     requestData: (user) => dispatch(homeActions.userDataRequested(user)),
     increaseCount: (categoryName) => dispatch(homeActions.increaseCount(categoryName)),
+    decreaseCount: (categoryName) => dispatch(homeActions.decreaseCount(categoryName)),
     save: (user, data) => dispatch(homeActions.save(user, data))
   };
 }
