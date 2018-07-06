@@ -19,6 +19,9 @@ const styles = theme => ({
     justifyContent: 'flex-end',
     flexDirection: 'row',
     alignItems: 'center',
+    '& .logoutIcon': {
+      marginRight: 16,
+    }
   },
 });
 
@@ -37,7 +40,7 @@ const Navbar = class extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.navContainer}>
-        <ExitIcon size={30} onClick={this.signOut} />
+        <ExitIcon size={30} onClick={this.signOut} className="logoutIcon" />
       </div>
     )
   }
