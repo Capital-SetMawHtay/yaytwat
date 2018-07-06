@@ -89,10 +89,6 @@ class Home extends React.Component {
       <div className={classes.container}>
         <Navbar />
         <div>
-          <h1> My App </h1>
-          <p>
-            Welcome {user.displayName}!You are now signed - in !{' '}
-          </p>
           <div className={classes.summaryPanel}>
             <p>Previous total: { previousTotal }</p>
             <p>Current total: { currentTotal }</p>
@@ -105,10 +101,9 @@ class Home extends React.Component {
                 return (
                   <KyatButton
                     key={countRecord.name}
+                    countRecord={countRecord}
                     increase={this.props.increaseCount.bind(this, countRecord.name)}
-                    decrease={this.props.decreaseCount.bind(this, countRecord.name)}>
-                    Add {countRecord.name} ({countRecord.count})
-                  </KyatButton>
+                    decrease={this.props.decreaseCount.bind(this, countRecord.name)} />
                 )
               })
             }

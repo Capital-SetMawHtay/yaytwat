@@ -1,28 +1,41 @@
 import React from 'react';
 import injectSheet from "react-jss";
-import Tappable from 'react-tappable';
 import Swipeable from 'react-swipeable';
+import UpIcon from 'react-icons/lib/md/thumb-up';
+import DownIcon from 'react-icons/lib/md/thumb-down';
 
 const styles = theme => ({
   kyatButton: {
     backgroundColor: theme.colorPrimary,
     color: 'white',
-    width: 150,
-    height: 40,
+    width: '100vw',
+    height: 80,
     textAlign: 'center',
     fontSize: 16,
     boxShadow: 'none',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
   },
 });
 
-const KyatButton = ({ classes, children, increase, decrease }) => {
+const KyatButton = ({ classes, countRecord, increase, decrease }) => {
   return (
     <Swipeable
       onSwipedRight={increase}
       onSwipedLeft={decrease}
       className={classes.kyatButton}
     >
-      {children}
+      <div className="down">
+        <DownIcon size={30} onClick={decrease} />        
+      </div>
+      <div className="content">
+        {countRecord.name} ( {countRecord.count} )
+      </div>
+      <div className="up">
+        <UpIcon size={30} onClick={increase} />        
+      </div>
     </Swipeable>
   );
 };
