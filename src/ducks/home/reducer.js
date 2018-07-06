@@ -83,6 +83,8 @@ export default (state = initialState, action) => {
       return { ...state, data: { ...state.data, counts: updateCountFor(state.data.counts, action.categoryName, 1) } };
     case constants.DECREASE_COUNT:
       return { ...state, data: { ...state.data, counts: updateCountFor(state.data.counts, action.categoryName, -1) } };
+    case constants.RESET:
+      return { ...state, data: { ...state.data, counts: [...initialCounts] } };
     case constants.SAVING:
       return { ...state, saving: true, error: null };
     case constants.SAVE_SUCCESSFUL:

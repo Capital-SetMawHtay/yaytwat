@@ -34,4 +34,10 @@ export const save = (user, data) => {
     data,
     user,
   }
-}
+};
+
+export const reset = () => {
+  return {
+    type: constants.RESET,
+  }
+};

@@ -5,5 +5,6 @@ export const INCREASE_COUNT = '@HOME/INCREASE_COUNT';
 export const DECREASE_COUNT = '@HOME/DECREASE_COUNT';
 export const SAVE_REQUESTED = '@HOME/SAVE_REQUESTED';
 export const SAVING = '@HOME/SAVING';
+export const RESET = '@HOME/RESET';
 export const SAVE_SUCCESSFUL = '@HOME/SAVE_SUCCESSFUL';
 export const SAVE_FAILED = '@HOME/SAVE_FAILED';

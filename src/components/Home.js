@@ -30,8 +30,14 @@ const styles = theme => ({
     flexDirection: 'row',
     width: '100vw',
     boxSizing: 'border-box',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
+    "& .previous": {
+      color: 'green',
+    },
+    "& .current": {
+      color: 'red',
+    },
   },
   buttonsContainer: {
     display: 'flex',
@@ -48,6 +54,10 @@ const styles = theme => ({
     textAlign: 'center',
     fontSize: 16,
     boxShadow: 'none',
+  },
+  resetButton: {
+    extend: 'saveButton',
+    backgroundColor: Color(theme.colorSecondary).darken(0.3).string(),
   },
   label: {
     fontWeight: 'bold',
@@ -90,11 +100,13 @@ class Home extends React.Component {
         <Navbar />
         <div>
           <div className={classes.summaryPanel}>
-            <p>Previous total: { previousTotal }</p>
-            <p>Current total: { currentTotal }</p>
+            <p className="previous">Previous total: { previousTotal }</p>
+            <p className="current">Current total: { currentTotal }</p>
           </div>
-          { saving ? 'Saving...' : null }
-          { error ?  'Save failed.' : null }
+          <div className={classes.statusBar}>
+            { saving ? 'Saving...' : null }
+            { error ?  'Save failed.' : null }
+          </div>
           <div className={classes.buttonsContainer}>
             {
               counts.map(countRecord => {
@@ -111,6 +123,9 @@ class Home extends React.Component {
           <div>
             <button type="submit" className={classes.saveButton} onClick={this.save}>Save</button>
           </div>
+          <div>
+            <button type="reset" className={classes.resetButton} onClick={this.props.reset}>Reset</button>
+          </div>
         </div>
       </div>
     );
@@ -121,7 +136,8 @@ const mapDispatchToProps = (dispatch) => {
     requestData: (user) => dispatch(homeActions.userDataRequested(user)),
     increaseCount: (categoryName) => dispatch(homeActions.increaseCount(categoryName)),
     decreaseCount: (categoryName) => dispatch(homeActions.decreaseCount(categoryName)),
-    save: (user, data) => dispatch(homeActions.save(user, data))
+    save: (user, data) => dispatch(homeActions.save(user, data)),
+    reset: (user, data) => dispatch(homeActions.reset(user, data)),
   };
 }
 

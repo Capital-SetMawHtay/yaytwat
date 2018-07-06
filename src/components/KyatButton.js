@@ -9,7 +9,7 @@ const styles = theme => ({
     backgroundColor: theme.colorPrimary,
     color: 'white',
     width: '100vw',
-    height: 80,
+    height: 60,
     textAlign: 'center',
     fontSize: 16,
     boxShadow: 'none',
@@ -31,7 +31,7 @@ const KyatButton = ({ classes, countRecord, increase, decrease }) => {
         <DownIcon size={30} onClick={decrease} />        
       </div>
       <div className="content">
-        {countRecord.name} ( {countRecord.count} )
+        {`${countRecord.name} ( ${countRecord.count} )`}
       </div>
       <div className="up">
         <UpIcon size={30} onClick={increase} />        

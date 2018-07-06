@@ -15,7 +15,8 @@ import Auth from './components/Auth';
 import Home from './components/Home';
 
 const theme = {
-  colorPrimary: '#F06292'
+  colorPrimary: '#F06292',
+  colorSecondary: '#e0e0e0',
 };
 
 function PrivateRoute({ component: Component, user, ...rest }) {
