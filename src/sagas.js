@@ -4,31 +4,21 @@ import {
   takeEvery,
   takeLatest
 } from 'redux-saga/effects'
-import Api from '...'
-
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
-function* fetchUser(action) {
-  try {
-    const user = yield call(Api.fetchUser, action.payload.userId);
-    yield put({
-      type: "USER_FETCH_SUCCEEDED",
-      user: user
-    });
-  } catch (e) {
-    yield put({
-      type: "USER_FETCH_FAILED",
-      message: e.message
-    });
-  }
-}
+import {
+  homeActions,
+  homeConstants,
+  // homeSelectors,
+  homeReducer,
+  homeSagas,
+} from './ducks/home';
 
 /*
   Starts fetchUser on each dispatched `USER_FETCH_REQUESTED` action.
   Allows concurrent fetches of user.
-*/
-function* mySaga() {
-  yield takeEvery("USER_FETCH_REQUESTED", fetchUser);
-}
+// */
+// function* mySaga() {
+//   yield takeEvery("USER_FETCH_REQUESTED", fetchUser);
+// }
 
 /*
   Alternatively you may use takeLatest.
@@ -37,8 +27,9 @@ function* mySaga() {
   dispatched while a fetch is already pending, that pending fetch is cancelled
   and only the latest one will be run.
 */
-function* mySaga() {
-  yield takeLatest("USER_FETCH_REQUESTED", fetchUser);
+function* rootSaga() {
+  yield takeLatest(homeConstants.USER_DATA_REQUESTED, homeSagas.fetchUserData);
+  yield takeLatest(homeConstants.SAVE_REQUESTED, homeSagas.saveUserData);
 }
 
-export default mySaga;
+export default rootSaga;

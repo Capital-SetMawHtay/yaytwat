@@ -4,24 +4,40 @@
   "private": true,
   "dependencies": {
     "color": "^3.0.0",
+    "create-react-class": "^15.6.3",
     "firebase": "^5.2.0",
     "jss": "^9.8.7",
     "jss-preset-default": "^4.5.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-firebaseui": "^3.0.4",
+    "react-icons": "^2.2.7",
+    "react-jss": "^8.6.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
     "react-saga": "^0.2.6",
     "react-scripts": "1.1.4",
+    "react-swipeable": "^4.3.0",
     "redux": "^4.0.0",
     "redux-actions": "^2.4.0",
-    "redux-saga": "^0.16.0"
+    "redux-devtools-extension": "^2.13.5",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^0.16.0",
+    "reselect": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "17.0.0",
+    "eslint-import-resolver-webpack": "^0.10.1",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.9.1"
   }
 }
